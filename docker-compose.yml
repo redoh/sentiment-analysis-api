@@ -1,0 +1,14 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - SENTIMENT_DEBUG=false
+      - SENTIMENT_MODEL_NAME=nlptown/bert-base-multilingual-uncased-sentiment
+    volumes:
+      - model-cache:/root/.cache/huggingface
+    restart: unless-stopped
+
+volumes:
+  model-cache:
