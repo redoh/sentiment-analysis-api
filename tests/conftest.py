@@ -13,6 +13,8 @@ def _make_mock_service() -> SentimentService:
     """Create a mock sentiment service that returns predictable results."""
     service = MagicMock(spec=SentimentService)
     service.is_loaded = True
+    service.device = "cpu"
+    service.cache_stats = {"hits": 5, "misses": 10, "size": 10}
 
     service.analyze.return_value = {
         "text": "I love this product!",
@@ -20,7 +22,26 @@ def _make_mock_service() -> SentimentService:
         "scores": {"negative": 0.02, "neutral": 0.03, "positive": 0.95},
     }
 
+    service.analyze_async.return_value = {
+        "text": "I love this product!",
+        "sentiment": {"label": "positive", "score": 0.95},
+        "scores": {"negative": 0.02, "neutral": 0.03, "positive": 0.95},
+    }
+
     service.analyze_batch.return_value = [
+        {
+            "text": "I love this!",
+            "sentiment": {"label": "positive", "score": 0.95},
+            "scores": {"negative": 0.02, "neutral": 0.03, "positive": 0.95},
+        },
+        {
+            "text": "I hate this!",
+            "sentiment": {"label": "negative", "score": 0.90},
+            "scores": {"negative": 0.90, "neutral": 0.05, "positive": 0.05},
+        },
+    ]
+
+    service.analyze_batch_async.return_value = [
         {
             "text": "I love this!",
             "sentiment": {"label": "positive", "score": 0.95},
