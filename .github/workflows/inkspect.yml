@@ -12,12 +12,12 @@ concurrency:
 
 jobs:
   review:
-    name: Inkspect review
+    name: Inkspect Code Review
     if: ${{ !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
-      - name: Request Inkspect review
+      - name: Request Inkspect Cloud Engine 
         uses: inkspect-code-review/inkspect-action@v1
         with:
           ci-workflow: CI
